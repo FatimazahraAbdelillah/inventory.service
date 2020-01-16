@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,8 +38,9 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 	@Bean
-	CommandLineRunner start(ProductRepository productRepository) {
+	CommandLineRunner start(ProductRepository productRepository, RepositoryRestConfiguration repositoryRestConfiguration) {
 		return args -> {
+			repositoryRestConfiguration.exposeIdsFor(Product.class);
 			productRepository.save(new Product(null, "usb", 8000));
 			productRepository.save(new Product(null, "ordinateur", 7000));
 			productRepository.save(new Product(null, "souris", 200));
